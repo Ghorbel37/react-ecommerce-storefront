@@ -10,7 +10,7 @@ export default function ProductCard({ product }: { product: any }) {
       {/* Image */}
       <div className="w-20 h-20 shrink-0 bg-stone-100 rounded-lg flex items-center justify-center overflow-hidden">
         <img
-          src={`http://localhost:5173/produts-img/${product.categoryName}/${product.imageName}`}
+          src={`http://localhost:5173/products-img/${product.categoryName}/${product.imageName}`}
           alt={product.name}
           className="w-full h-full object-cover"
         />
