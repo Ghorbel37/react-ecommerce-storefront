@@ -1,16 +1,16 @@
-// Will be replaced with dynamically fetched categories later
-const placeholderCategories = ["Electronics", "Clothing", "Books", "Home & Garden", "Sports"];
+import { Link, useLoaderData } from "react-router-dom";
 
 export default function FooterCategories() {
+  const categories : any[] = useLoaderData();
   return (
     <div className="flex flex-col gap-3">
       <h3 className="text-white font-bold text-lg">Categories</h3>
       <ul className="flex flex-col gap-2 text-sm">
-        {placeholderCategories.map((cat) => (
-          <li key={cat}>
-            <a href="#" className="hover:text-white transition-colors">
-              {cat}
-            </a>
+        {categories.map((cat) => (
+          <li key={cat.id}>
+            <Link to={`/browse/?categoryId=${cat.id}`} className="hover:text-white transition-colors">
+              {cat.name}
+            </Link>
           </li>
         ))}
       </ul>

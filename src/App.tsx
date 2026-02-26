@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ShopLayout from "./pages/ShopLayout";
+import ShopLayout, { loader as categoriesLoader } from "./pages/ShopLayout";
 import HomePage from "./pages/HomePage";
 import { loader as carouselLoader } from "./components/home/Carousel";
 import CheckoutPage from "./pages/CheckoutPage";
@@ -9,7 +9,7 @@ import CartPage from "./pages/CartPage";
 
 const router = createBrowserRouter([
   {
-    path: "/", element: <ShopLayout />, children: [
+    path: "/", element: <ShopLayout />, loader: categoriesLoader, id: "shop-layout", children: [
       { index: true, element: <HomePage />, loader: carouselLoader },
       { path: "products", element: <ProductDetailsPage /> },
       { path: "browse", element: <BrowsePage /> },
