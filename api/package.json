@@ -1,0 +1,14 @@
+{
+  "name": "mystore-mock-api",
+  "version": "1.0.0",
+  "description": "Mock API pour l'exercice React MyStore",
+  "scripts": {
+    "start": "json-server --watch db.json --port 3001",
+    "start:routes": "json-server --watch db.json --routes routes.json --port 3001",
+    "merge": "node merge-db.js",
+    "dev": "node merge-db.js && json-server --watch db.json --port 3001"
+  },
+  "dependencies": {
+    "json-server": "^0.17.4"
+  }
+}
