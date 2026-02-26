@@ -15,3 +15,11 @@ export default function ShopLayout() {
     </div>
   );
 }
+
+export async function loader() {
+  const response = await fetch("http://localhost:3001/categories");
+  if (!response.ok) {
+    throw new Error("Failed to load categories");
+  }
+  return response;
+}
