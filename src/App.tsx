@@ -11,7 +11,7 @@ const router = createBrowserRouter([
   {
     path: "/", element: <ShopLayout />, loader: categoriesLoader, id: "shop-layout", children: [
       { index: true, element: <HomePage />, loader: carouselLoader },
-      { path: "products", element: <ProductDetailsPage /> },
+      { path: "product/:id", element: <ProductDetailsPage /> },
       { path: "browse", element: <BrowsePage /> },
       { path: "checkout", element: <CheckoutPage /> },
       { path: "cart", element: <CartPage /> },
