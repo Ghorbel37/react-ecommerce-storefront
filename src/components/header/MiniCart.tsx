@@ -11,9 +11,11 @@ export default function MiniCart() {
       aria-label="Cart"
     >
       <ShoppingCartIcon className="h-7 w-7" />
-      <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
-        {itemCount}
-      </span>
+      {itemCount > 0 && (
+        <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
+          {itemCount}
+        </span>
+      )}
     </NavLink>
   );
 }
