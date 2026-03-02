@@ -1,8 +1,11 @@
 import { NavLink } from "react-router";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { useSelector } from "react-redux";
 
 export default function MiniCart() {
-  const itemCount = 0;
+  const itemCount = useSelector((state: any) =>
+    state.cart.products.reduce((sum: number, item: any) => sum + (item.quantity), 0)
+  );
 
   return (
     <NavLink
