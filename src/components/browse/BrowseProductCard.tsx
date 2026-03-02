@@ -1,15 +1,19 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 import { StarIcon as StarOutlineIcon, PhotoIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { actions } from "../../store/cartSlice";
 
 export default function BrowseProductCard({ product }: any) {
+  const dispatch = useDispatch();
+
   const discountedPrice = product.discountRate
     ? product.price * (1 - product.discountRate / 100)
     : null;
 
-    function handleAddToCart(){
-        console.log("Adding to cart:", product);
-    }
+  function handleAddToCart() {
+    dispatch(actions.addToCart(product));
+  }
 
   return (
     <div className="bg-white border border-stone-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow flex flex-col">

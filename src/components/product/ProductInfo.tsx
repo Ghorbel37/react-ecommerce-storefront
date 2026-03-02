@@ -1,14 +1,17 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 import { StarIcon as StarOutlineIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { actions } from "../../store/cartSlice";
+import { useDispatch } from "react-redux";
 
 export default function ProductInfo({ product }: any) {
+  const dispatch = useDispatch();
 
   const discountedPrice = product.discountRate
     ? product.price * (1 - product.discountRate / 100)
     : null;
 
   function handleAddToCart() {
-    console.log("Adding to cart:", product);
+    dispatch(actions.addToCart(product));
   }
 
   return (
