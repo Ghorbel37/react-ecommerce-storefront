@@ -1,4 +1,5 @@
 import { StarIcon } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
 
 export default function ProductCard({ product }: { product: any }) {
   const discountedPrice = product.discountRate
@@ -6,7 +7,7 @@ export default function ProductCard({ product }: { product: any }) {
     : null;
 
   return (
-    <div className="bg-white border border-stone-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow cursor-pointer flex gap-3 p-3">
+    <Link to={`/product/${product.id}`} className="bg-white border border-stone-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow cursor-pointer flex gap-3 p-3">
       {/* Image */}
       <div className="w-20 h-20 shrink-0 bg-stone-100 rounded-lg flex items-center justify-center overflow-hidden">
         <img
@@ -54,6 +55,6 @@ export default function ProductCard({ product }: { product: any }) {
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
