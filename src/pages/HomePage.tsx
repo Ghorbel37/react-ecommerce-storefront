@@ -12,8 +12,8 @@ export default function HomePage() {
 
       {/* Product sections in 3-column grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <ProductSection />
         <ProductSection isTopSeller />
+        <ProductSection isRecent/>
         <ProductSection isNewProduct />
       </div>
     </div>
