@@ -1,29 +1,44 @@
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 
-export default function ProductSection({ isTopSeller, isNewProduct }: any) {
+const BASE_URL = "http://localhost:3001";
+const RECENTLY_VIEWED_KEY = "recentlyViewed";
+
+export default function ProductSection({ isTopSeller, isNewProduct, isRecent }: any) {
   const [products, setProducts] = useState<any[]>([]);
   const [viewAll, setViewAll] = useState(false);
-
-  const apiUrl = isTopSeller
-    ? "/products?isTopSeller=true"
-    : isNewProduct
-      ? "/products?isNewProduct=true"
-      : "/products";
 
   const title = isTopSeller
     ? "Best Sellers"
     : isNewProduct
       ? "New Arrivals"
-      : "Featured Products";
+      : isRecent
+        ? "Recently Viewed"
+        : "Featured Products";
 
   useEffect(() => {
-    const BASE_URL = "http://localhost:3001";
+    if (isRecent) {
+      const stored = localStorage.getItem(RECENTLY_VIEWED_KEY);
+      if (!stored) return;
+      const ids: number[] = JSON.parse(stored);
+      if (ids.length === 0) return;
+      Promise.all(ids.slice(0, 10).map((id) => fetch(`${BASE_URL}/products/${id}`).then((r) => r.json())))
+        .then((data) => setProducts(data.filter(Boolean)))
+        .catch(() => setProducts([]));
+      return;
+    }
+
+    const apiUrl = isTopSeller
+      ? "/products?isTopSeller=true"
+      : isNewProduct
+        ? "/products?isNewProduct=true"
+        : "/products";
+
     fetch(`${BASE_URL}${apiUrl}`)
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch(() => setProducts([]));
-  }, []);
+  }, [isRecent, isTopSeller, isNewProduct]);
 
   return (
     <section>

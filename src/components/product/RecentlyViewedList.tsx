@@ -12,7 +12,7 @@ export function addToRecentlyViewed(productId: number) {
   const ids: number[] = stored ? JSON.parse(stored) : [];
   const filtered = ids.filter((id) => id !== productId);
   filtered.unshift(productId);
-  localStorage.setItem(RECENTLY_VIEWED_KEY, JSON.stringify(filtered.slice(0, 10)));
+  localStorage.setItem(RECENTLY_VIEWED_KEY, JSON.stringify(filtered.slice(0, MAX_DISPLAY)));
 }
 
 export default function RecentlyViewedList({ currentProductId }: { currentProductId: number }) {
