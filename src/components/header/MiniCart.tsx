@@ -13,6 +13,8 @@ export default function MiniCart() {
     )
   );
 
+  const totalWithTax = total * 1.2;
+
   return (
     <>
       <style>{`
@@ -42,10 +44,10 @@ export default function MiniCart() {
           )}
         </div>
         <span
-          key={total.toFixed(2)}
+          key={totalWithTax.toFixed(2)}
           className="minicart-pop text-sm font-semibold text-white"
         >
-          {itemCount > 0 ? `$${total.toFixed(2)}` : "$0.00"}
+          {itemCount > 0 ? `$${totalWithTax.toFixed(2)}` : "$0.00"}
         </span>
       </NavLink>
     </>
