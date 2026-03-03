@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useRouteLoaderData } from "react-router-dom";
 import BrowseProductCard from "../components/browse/BrowseProductCard";
 import Pagination from "../components/browse/Pagination";
 
@@ -10,6 +10,9 @@ export default function BrowsePage() {
   const searchParams = useSearchParams()[0];
   const category = searchParams.get("categoryId") ?? "";
   const q = searchParams.get("q") ?? "";
+
+  const categories = useRouteLoaderData("shop-layout") as any[];
+  const categoryName = category ? (categories.find((c: any) => c.id === category).name ?? category) : "";
 
   const [products, setProducts] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -55,7 +58,7 @@ export default function BrowsePage() {
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-stone-800">
-          {category ? `Category: ${category}` : q ? `Results for "${q}"` : "All Products"}
+          {category ? `Category: ${categoryName}` : q ? `Results for "${q}"` : "All Products"}
         </h1>
         {!loading && (
           <p className="text-stone-500 text-sm mt-1">{totalCount} product{totalCount !== 1 ? "s" : ""} found</p>
