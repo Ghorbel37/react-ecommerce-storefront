@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   function handleSetQuery(event: any) {
     setQuery(event.target.value);
@@ -21,8 +22,11 @@ export default function SearchBar() {
     if (!trimmedQuery) {
       return;
     }
-    const searchUrl = `/browse?q=${encodeURIComponent(trimmedQuery)}`;
-    navigate(searchUrl);
+    const params = new URLSearchParams();
+    params.set("q", trimmedQuery);
+    const categoryId = searchParams.get("categoryId");
+    if (categoryId) params.set("categoryId", categoryId);
+    navigate(`/browse?${params.toString()}`);
     setQuery("");
   }
 

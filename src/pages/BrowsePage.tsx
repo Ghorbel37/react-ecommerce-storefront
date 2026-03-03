@@ -58,7 +58,13 @@ export default function BrowsePage() {
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-stone-800">
-          {category ? `Category: ${categoryName}` : q ? `Results for "${q}"` : "All Products"}
+          {category && q
+            ? `${categoryName}: Results for "${q}"`
+            : category
+            ? `Category: ${categoryName}`
+            : q
+            ? `Results for "${q}"`
+            : "All Products"}
         </h1>
         {!loading && (
           <p className="text-stone-500 text-sm mt-1">{totalCount} product{totalCount !== 1 ? "s" : ""} found</p>
