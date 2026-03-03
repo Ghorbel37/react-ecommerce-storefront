@@ -6,10 +6,10 @@ import CheckoutPage from "./pages/CheckoutPage";
 import BrowsePage from "./pages/BrowsePage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CartPage from "./pages/CartPage";
+import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter([
-  {
-    path: "/", element: <ShopLayout />, loader: categoriesLoader, id: "shop-layout", children: [
+  { path: "/", element: <ShopLayout />, loader: categoriesLoader, id: "shop-layout", errorElement: <ErrorPage />, children: [
       { index: true, element: <HomePage />, loader: carouselLoader },
       { path: "product/:id", element: <ProductDetailsPage /> },
       { path: "browse", element: <BrowsePage /> },
