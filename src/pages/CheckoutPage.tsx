@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Form, useNavigation, useActionData, redirect } from "react-router-dom";
+import { Link, useNavigation, useActionData, redirect, useFetcher } from "react-router-dom";
 import type { ActionFunctionArgs } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
@@ -21,7 +21,6 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   const fd = await request.formData();
-  console.log("Form data:");
   // Constructing the order object
   function extractFormData(prefix: string) {
     return Object.fromEntries(
@@ -67,6 +66,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function CheckoutPage() {
+  const fetcher = useFetcher();
   const navigation = useNavigation();
   const actionData = useActionData() as { error?: string } | undefined;
   const items = useSelector((state: any) => state.cart.products);
@@ -86,7 +86,7 @@ export default function CheckoutPage() {
         <h1 className="text-2xl font-bold text-stone-800">Checkout</h1>
       </div>
 
-      <Form method="post">
+      <fetcher.Form method="post">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6 items-start">
           {/* Left column */}
           <div className="flex flex-col gap-5">
@@ -125,7 +125,7 @@ export default function CheckoutPage() {
             />
           </div>
         </div>
-      </Form>
+      </fetcher.Form>
     </div>
   );
 }
