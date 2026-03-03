@@ -51,7 +51,7 @@ export default function OtherBrandsList({ categoryName, currentProductId }: any)
                       <img
                         src={`http://localhost:5173/products-img/${product.categoryName}/${product.imageName}`}
                         alt={product.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain p-1"
                       />
                     ) : (
                       <PhotoIcon className="h-8 w-8 text-stone-300" />

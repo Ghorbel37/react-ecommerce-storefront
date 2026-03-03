@@ -13,7 +13,7 @@ export default function ProductCard({ product }: { product: any }) {
         <img
           src={`http://localhost:5173/products-img/${product.categoryName}/${product.imageName}`}
           alt={product.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain p-1"
         />
       </div>
 

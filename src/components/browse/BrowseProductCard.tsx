@@ -24,7 +24,7 @@ export default function BrowseProductCard({ product }: any) {
           <img
             src={`http://localhost:5173/products-img/${product.categoryName}/${product.imageName}`}
             alt={product.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain p-1"
           />
         ) : (
           <PhotoIcon className="h-16 w-16 text-stone-300" />
