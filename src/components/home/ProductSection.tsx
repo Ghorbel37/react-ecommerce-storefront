@@ -7,25 +7,31 @@ const RECENTLY_VIEWED_KEY = "recentlyViewed";
 export default function ProductSection({ isTopSeller, isNewProduct, isRecent }: any) {
   const [products, setProducts] = useState<any[]>([]);
   const [viewAll, setViewAll] = useState(false);
+  const [usingFallback, setUsingFallback] = useState(false);
 
   const title = isTopSeller
     ? "Best Sellers"
     : isNewProduct
       ? "New Arrivals"
-      : isRecent
+      : isRecent && !usingFallback
         ? "Recently Viewed"
         : "Featured Products";
 
   useEffect(() => {
     if (isRecent) {
       const stored = localStorage.getItem(RECENTLY_VIEWED_KEY);
-      if (!stored) return;
-      const ids: number[] = JSON.parse(stored);
-      if (ids.length === 0) return;
-      Promise.all(ids.slice(0, 10).map((id) => fetch(`${BASE_URL}/products/${id}`).then((r) => r.json())))
-        .then((data) => setProducts(data.filter(Boolean)))
-        .catch(() => setProducts([]));
-      return;
+      const ids: number[] = stored ? JSON.parse(stored) : [];
+
+      if (ids.length > 0) {
+        setUsingFallback(false);
+        Promise.all(ids.slice(0, 10).map((id) => fetch(`${BASE_URL}/products/${id}`).then((r) => r.json())))
+          .then((data) => setProducts(data.filter(Boolean)))
+          .catch(() => setProducts([]));
+        return;
+      }
+
+      // No recently viewed — fall back to featured products
+      setUsingFallback(true);
     }
 
     const apiUrl = isTopSeller
