@@ -60,7 +60,7 @@ export async function action({ request }: ActionFunctionArgs) {
     throw new Error();
   }
   store.dispatch(actions.clearCart());
-  return redirect("/cart");
+  return redirect("/browse");
   } catch {
     return { error: "Something went wrong. Please try again." };
   }
