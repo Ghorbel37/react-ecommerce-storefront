@@ -11,7 +11,7 @@ import ErrorPage from "./pages/ErrorPage";
 const router = createBrowserRouter([
   {
     path: "/", element: <ShopLayout />, loader: categoriesLoader, id: "shop-layout", errorElement: <ErrorPage />, shouldRevalidate: () => false, children: [
-      { index: true, element: <HomePage />, loader: carouselLoader },
+      { index: true, element: <HomePage />, id: "home-page", loader: carouselLoader },
       { path: "product/:id", element: <ProductDetailsPage /> },
       { path: "browse", element: <BrowsePage /> },
       { path: "checkout", element: <CheckoutPage />, action: checkoutAction },

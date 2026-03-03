@@ -1,7 +1,7 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useRouteLoaderData } from "react-router-dom";
 
 export default function FooterCategories() {
-  const categories : any[] = useLoaderData();
+  const categories : any[] = useRouteLoaderData("shop-layout") ?? [];
   return (
     <div className="flex flex-col gap-3">
       <h3 className="text-white font-bold text-lg">Categories</h3>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { NavLink, useLoaderData } from "react-router";
+import { NavLink, useRouteLoaderData } from "react-router";
 import { ChevronLeftIcon, ChevronRightIcon, PhotoIcon } from "@heroicons/react/24/outline";
 
 const BASE_URL = "http://localhost:5173";
 
 export default function Carousel() {
-    const slides : any[] = useLoaderData();
+    const slides : any[] = useRouteLoaderData("home-page") ?? [];
     const [current, setCurrent] = useState(0);
     const [loadedPhotos, setLoadedPhotos] = useState({} as Record<string, boolean>);
     

@@ -1,4 +1,4 @@
-import { NavLink, useLoaderData, useSearchParams } from "react-router";
+import { NavLink, useRouteLoaderData, useSearchParams } from "react-router";
 
 const staticLinks = [
   { to: "/", label: "Home" },
@@ -6,7 +6,7 @@ const staticLinks = [
 ];
 
 export default function Navbar() {
-  const categories: any[] = useLoaderData();
+  const categories: any[] = useRouteLoaderData("shop-layout") ?? [];
   const searchParams = useSearchParams()[0];
   const activeCategoryId = searchParams.get("categoryId");
 
