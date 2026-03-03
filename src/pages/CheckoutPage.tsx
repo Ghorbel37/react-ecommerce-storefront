@@ -34,7 +34,10 @@ export async function action({ request }: ActionFunctionArgs) {
   const shipping = fd.has("shipping.firstName") ? extractFormData("shipping") : billing;
   const paymentMethod = fd.get("payment") as string;
 
-  const subtotal = items.reduce((s: number, i: any) => s + i.price * i.quantity, 0);
+  const subtotal = items.reduce((s: number, i: any) => {
+    const effectivePrice = i.price * (1 - (i.discountRate ?? 0) / 100);
+    return s + effectivePrice * i.quantity;
+  }, 0);
   const tax = subtotal * TAX_RATE;
   const total = subtotal + tax;
 

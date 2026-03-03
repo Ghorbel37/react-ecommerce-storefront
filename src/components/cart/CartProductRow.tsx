@@ -8,7 +8,9 @@ type Props = {
 };
 
 export default function CartProductRow({ item, onQtyChange, onRemove }: Props) {
-  const lineTotal = (item.price * item.quantity).toFixed(2);
+  const discount = item.discountRate ?? 0;
+  const effectivePrice = item.price * (1 - discount / 100);
+  const lineTotal = (effectivePrice * item.quantity).toFixed(2);
 
   return (
     <li className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center px-6 py-4">
@@ -29,10 +31,18 @@ export default function CartProductRow({ item, onQtyChange, onRemove }: Props) {
       </div>
 
       {/* Unit Price */}
-      <p className="text-sm text-stone-600 md:text-right">
+      <div className="text-sm md:text-right">
         <span className="md:hidden text-xs text-stone-400 mr-1">Unit:</span>
-        ${item.price.toFixed(2)}
-      </p>
+        {discount > 0 && (
+          <span className="line-through text-stone-400 text-xs mr-1">${item.price.toFixed(2)}</span>
+        )}
+        <span className={discount > 0 ? "text-amber-500 font-semibold" : "text-stone-600"}>
+          ${effectivePrice.toFixed(2)}
+        </span>
+        {discount > 0 && (
+          <span className="ml-1 text-xs text-green-600 font-medium">-{discount}%</span>
+        )}
+      </div>
 
       {/* Qty stepper */}
       <div className="flex items-center md:justify-center gap-1">

@@ -6,7 +6,12 @@ const TAX_RATE = 0.2;
 export default function OrderReview() {
   const items = useSelector((state: any) => state.cart.products);
 
-  const subtotal = items.reduce((s: number, i: any) => s + i.price * i.quantity, 0);
+  const subtotal = items.reduce((s: number, i: any) => {
+    const effectivePrice = i.price * (1 - (i.discountRate ?? 0) / 100);
+    return s + effectivePrice * i.quantity;
+  }, 0);
+  const originalSubtotal = items.reduce((s: number, i: any) => s + i.price * i.quantity, 0);
+  const totalDiscount = originalSubtotal - subtotal;
   const tax = subtotal * TAX_RATE;
   const total = subtotal + tax;
 
@@ -34,9 +39,14 @@ export default function OrderReview() {
               <p className="text-sm font-medium text-stone-800 line-clamp-1">{item.name}</p>
               <p className="text-xs text-stone-400">x{item.quantity}</p>
             </div>
-            <p className="text-sm font-semibold text-amber-500 shrink-0">
-              ${(item.price * item.quantity).toFixed(2)}
-            </p>
+            <div className="text-right shrink-0">
+              {(item.discountRate ?? 0) > 0 && (
+                <p className="text-xs line-through text-stone-400">${(item.price * item.quantity).toFixed(2)}</p>
+              )}
+              <p className="text-sm font-semibold text-amber-500">
+                ${(item.price * (1 - (item.discountRate ?? 0) / 100) * item.quantity).toFixed(2)}
+              </p>
+            </div>
           </li>
         ))}
       </ul>
@@ -46,6 +56,12 @@ export default function OrderReview() {
           <span>Subtotal</span>
           <span>${subtotal.toFixed(2)}</span>
         </div>
+        {totalDiscount > 0 && (
+          <div className="flex justify-between text-sm text-green-600">
+            <span>Discount</span>
+            <span>-${totalDiscount.toFixed(2)}</span>
+          </div>
+        )}
         <div className="flex justify-between text-sm text-stone-500">
           <span>Tax (20%)</span>
           <span>${tax.toFixed(2)}</span>
