@@ -2,9 +2,10 @@ import { StarIcon } from "@heroicons/react/24/solid";
 import { StarIcon as StarOutlineIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { actions } from "../../store/cartSlice";
 import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../store/store";
 
 export default function ProductInfo({ product }: any) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const discountedPrice = product.discountRate
     ? product.price * (1 - product.discountRate / 100)

@@ -1,8 +1,18 @@
+import { useEffect } from "react";
 import { Outlet } from "react-router";
+import { useDispatch } from "react-redux";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { actions } from "../store/cartSlice";
+import type { AppDispatch } from "../store/store";
 
 export default function ShopLayout() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(actions.initCart());
+  }, [dispatch]);
+
   return (
     <div className="min-h-screen flex flex-col bg-stone-200">
       <Header />

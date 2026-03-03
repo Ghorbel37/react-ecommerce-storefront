@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch } from "../../store/store";
 import { actions } from "../../store/cartSlice";
 import CartProductRow from "./CartProductRow";
 
 export default function CartProductsTable() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const items = useSelector((state: any) => state.cart.products);
 
   function handleQtyChange(id: number, quantity: number) {
