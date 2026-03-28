@@ -3750,31 +3750,6 @@
           "qty": 1
         }
       ],
-      "customer": {
-        "email": "titi@toto.com",
-        "phone": "06060606",
-        "note": "",
-        "billingAdress": {
-          "civility": "Mr",
-          "firstName": "test",
-          "lastName": "test",
-          "zipCode": "14789",
-          "street": "  ",
-          "companyName": "Phone",
-          "county": "",
-          "city": ""
-        },
-        "shippingAdress": {
-          "civility": "Mr",
-          "firstName": "test",
-          "lastName": "test",
-          "zipCode": "14789",
-          "street": "  ",
-          "companyName": "Phone",
-          "county": "",
-          "city": ""
-        }
-      },
       "paymentMethod": "paypal"
     }
   ]
