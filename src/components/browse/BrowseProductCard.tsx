@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../store/store";
 import { actions } from "../../store/cartSlice";
+import { productImageUrl } from "../../api/client";
 
 export default function BrowseProductCard({ product }: any) {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,7 +24,7 @@ export default function BrowseProductCard({ product }: any) {
       <div className="relative h-48 bg-stone-100 flex items-center justify-center overflow-hidden">
         {product.imageName ? (
           <img
-            src={`http://localhost:5173/products-img/${product.categoryName}/${product.imageName}`}
+            src={productImageUrl(product.categoryName, product.imageName)}
             alt={product.name}
             className="w-full h-full object-contain p-1"
           />

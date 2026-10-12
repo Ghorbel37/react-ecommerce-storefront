@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PhotoIcon } from "@heroicons/react/24/outline";
+import { apiFetch, productImageUrl } from "../../api/client";
 
-const BASE_URL = "http://localhost:3001";
 
 export default function OtherBrandsList({ categoryName, currentProductId }: any) {
   const [products, setProducts] = useState<any[]>([]);
@@ -10,7 +10,7 @@ export default function OtherBrandsList({ categoryName, currentProductId }: any)
 
   useEffect(() => {
     if (!categoryName) return;
-    fetch(`${BASE_URL}/products?categoryName=${encodeURIComponent(categoryName)}&_limit=7`)
+    apiFetch(`/products?categoryName=${encodeURIComponent(categoryName)}&_limit=7`)
       .then((r) => r.json())
       .then((data: any[]) => setProducts(data.filter((p) => p.id !== currentProductId).slice(0, 6)))
       .catch(() => setProducts([]))
@@ -49,7 +49,7 @@ export default function OtherBrandsList({ categoryName, currentProductId }: any)
                   <div className="h-24 bg-stone-100 flex items-center justify-center overflow-hidden">
                     {product.imageName ? (
                       <img
-                        src={`http://localhost:5173/products-img/${product.categoryName}/${product.imageName}`}
+                        src={productImageUrl(product.categoryName, product.imageName)}
                         alt={product.name}
                         className="w-full h-full object-contain p-1"
                       />

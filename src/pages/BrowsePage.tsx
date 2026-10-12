@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useRouteLoaderData } from "react-router-dom";
 import BrowseProductCard from "../components/browse/BrowseProductCard";
 import Pagination from "../components/browse/Pagination";
+import { apiFetch } from "../api/client";
 
 const PAGE_SIZE = 12;
-const BASE_URL = "http://localhost:3001";
 
 export default function BrowsePage() {
   const searchParams = useSearchParams()[0];
@@ -34,7 +34,7 @@ export default function BrowsePage() {
     params.set("_limit", String(PAGE_SIZE));
 
     // Fetch products with pagination
-    fetch(`${BASE_URL}/products?${params.toString()}`)
+    apiFetch(`/products?${params.toString()}`)
       .then((res) => {
         const total = res.headers.get("X-Total-Count");
         setTotalCount(total ? parseInt(total) : 0);

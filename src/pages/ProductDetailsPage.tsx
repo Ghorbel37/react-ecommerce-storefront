@@ -4,8 +4,8 @@ import RecentlyViewedList, { addToRecentlyViewed } from "../components/product/R
 import ImageGallery from "../components/product/ImageGallery";
 import ProductInfo from "../components/product/ProductInfo";
 import OtherBrandsList from "../components/product/OtherBrandsList";
+import { apiFetch } from "../api/client";
 
-const BASE_URL = "http://localhost:3001";
 
 export default function ProductDetailsPage() {
   const { id } = useParams();
@@ -17,7 +17,7 @@ export default function ProductDetailsPage() {
     if (!id) return;
     setLoading(true);
     setError(false);
-    fetch(`${BASE_URL}/products/${id}`)
+    apiFetch(`/products/${id}`)
       .then((r) => {
         if (!r.ok) throw new Error("Not found");
         return r.json();

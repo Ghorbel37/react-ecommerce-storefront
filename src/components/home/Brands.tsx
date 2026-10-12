@@ -1,3 +1,5 @@
+import { assetUrl } from "../../api/client";
+
 const brands = [
   { id: 1, name: "Nokia", image: "/img/brand1.png" },
   { id: 2, name: "Canon", image: "/img/brand2.png" },
@@ -18,7 +20,7 @@ export default function Brands() {
             className="bg-white border border-stone-200 rounded-xl flex items-center justify-center h-16 px-4 hover:shadow-md transition-shadow cursor-pointer"
           >
             <img
-              src={brand.image}
+              src={assetUrl(brand.image)}
               alt={brand.name}
               className="max-h-10 max-w-full object-contain"
             />

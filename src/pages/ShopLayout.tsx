@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { actions } from "../store/cartSlice";
 import type { AppDispatch } from "../store/store";
+import { apiFetch } from "../api/client";
 
 export default function ShopLayout() {
   const dispatch = useDispatch<AppDispatch>();
@@ -27,7 +28,7 @@ export default function ShopLayout() {
 }
 
 export async function loader() {
-  const response = await fetch("http://localhost:3001/categories");
+  const response = await apiFetch("/categories");
   if (!response.ok) {
     throw new Error("Failed to load categories");
   }

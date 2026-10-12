@@ -9,9 +9,9 @@ import PaymentMethods from "../components/checkout/PaymentMethods";
 import PlaceOrderButton from "../components/checkout/PlaceOrderButton";
 import { actions } from "../store/cartSlice";
 import store from "../store/store";
+import { cartTotals } from "../store/cartTotals";
+import { apiFetch } from "../api/client";
 
-const BASE_URL = "http://localhost:3001";
-const TAX_RATE = 0.2;
 
 export async function action({ request }: ActionFunctionArgs) {
   const items = store.getState().cart.products;
@@ -34,12 +34,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const shipping = fd.has("shipping.firstName") ? extractFormData("shipping") : billing;
   const paymentMethod = fd.get("payment") as string;
 
-  const subtotal = items.reduce((s: number, i: any) => {
-    const effectivePrice = i.price * (1 - (i.discountRate ?? 0) / 100);
-    return s + effectivePrice * i.quantity;
-  }, 0);
-  const tax = subtotal * TAX_RATE;
-  const total = subtotal + tax;
+  const { subtotal, tax, total } = cartTotals(items);
 
   const order = {
     billingAddress: billing,
@@ -53,7 +48,7 @@ export async function action({ request }: ActionFunctionArgs) {
   };
 
   try {
-  const response = await fetch(`${BASE_URL}/orders`, {
+  const response = await apiFetch(`/orders`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(order)

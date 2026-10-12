@@ -1,19 +1,11 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-const TAX_RATE = 0.2;
+import { cartTotals } from "../../store/cartTotals";
 
 export default function CartTotalsTable() {
   const items = useSelector((state: any) => state.cart.products);
 
-  const subtotal = items.reduce((sum: number, item: any) => {
-    const effectivePrice = item.price * (1 - (item.discountRate ?? 0) / 100);
-    return sum + effectivePrice * item.quantity;
-  }, 0);
-  const originalSubtotal = items.reduce((sum: number, item: any) => sum + item.price * item.quantity, 0);
-  const totalDiscount = originalSubtotal - subtotal;
-  const tax = subtotal * TAX_RATE;
-  const total = subtotal + tax;
+  const { subtotal, discount: totalDiscount, tax, total } = cartTotals(items);
 
   return (
     <div className="bg-white rounded-xl border border-stone-200 overflow-hidden sticky top-24">

@@ -18,7 +18,7 @@ const router = createBrowserRouter([
       { path: "cart", element: <CartPage /> },
     ]
   },
-]);
+], { basename: import.meta.env.BASE_URL.replace(/\/$/, "") || "/" });
 
 function App() {
   return (

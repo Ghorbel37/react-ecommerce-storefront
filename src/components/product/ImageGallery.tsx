@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { PhotoIcon } from "@heroicons/react/24/outline";
+import { productImageUrl } from "../../api/client";
 
 
-const BASE_IMG = "http://localhost:5173/products-img";
 
 export default function ImageGallery({ images, productName, categoryName }: any) {
   const [selected, setSelected] = useState(0);
@@ -20,7 +20,7 @@ export default function ImageGallery({ images, productName, categoryName }: any)
       {/* Main image */}
       <div className="bg-stone-100 rounded-xl overflow-hidden h-96 flex items-center justify-center">
         <img
-          src={`${BASE_IMG}/${categoryName}/${images[selected]}`}
+          src={productImageUrl(categoryName, images[selected])}
           alt={productName}
           className="w-full h-full object-contain"
         />
@@ -38,7 +38,7 @@ export default function ImageGallery({ images, productName, categoryName }: any)
               }`}
             >
               <img
-                src={`${BASE_IMG}/${categoryName}/${img}`}
+                src={productImageUrl(categoryName, img)}
                 alt={`${productName} ${i + 1}`}
                 className="w-full h-full object-cover"
               />

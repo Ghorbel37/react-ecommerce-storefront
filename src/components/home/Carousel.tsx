@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useRouteLoaderData } from "react-router";
 import { ChevronLeftIcon, ChevronRightIcon, PhotoIcon } from "@heroicons/react/24/outline";
-
-const BASE_URL = "http://localhost:5173";
+import { apiFetch, assetUrl } from "../../api/client";
 
 export default function Carousel() {
     const slides : any[] = useRouteLoaderData("home-page") ?? [];
@@ -53,7 +52,7 @@ export default function Carousel() {
                             </div>
                         )}
                         <img
-                            src={`${BASE_URL}/img/${slide.image}`}
+                            src={assetUrl(`img/${slide.image}`)}
                             alt={slide.title}
                             onLoad={() => markLoaded(slide.id)}
                             className={`w-full h-full object-cover transition-opacity duration-300 ${loaded ? "opacity-0" : "opacity-100"}`}
@@ -109,7 +108,7 @@ export default function Carousel() {
 
 // Fetch slides function
 export async function loader(){
-    const response = await fetch("http://localhost:3001/slides");
+    const response = await apiFetch("/slides");
     if (!response.ok) {
         throw new Error("Failed to load slides");
     }

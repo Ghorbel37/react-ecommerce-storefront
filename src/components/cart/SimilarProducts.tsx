@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BrowseProductCard from "../browse/BrowseProductCard";
+import { apiFetch } from "../../api/client";
 
-const BASE_URL = "http://localhost:3001";
 
 export default function SimilarProducts() {
   const items = useSelector((state: any) => state.cart.products);
@@ -24,7 +24,7 @@ export default function SimilarProducts() {
     // Fetch products for each category and merge
     Promise.all(
       categoryNames.map((name) =>
-        fetch(`${BASE_URL}/products?categoryName=${encodeURIComponent(name)}&_limit=10`)
+        apiFetch(`/products?categoryName=${encodeURIComponent(name)}&_limit=10`)
           .then((r) => r.json())
       )
     )

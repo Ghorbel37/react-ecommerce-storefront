@@ -1,19 +1,11 @@
 import { useSelector } from "react-redux";
 import { PhotoIcon } from "@heroicons/react/24/outline";
-
-const TAX_RATE = 0.2;
+import { productImageUrl } from "../../api/client";
+import { cartTotals } from "../../store/cartTotals";
 
 export default function OrderReview() {
   const items = useSelector((state: any) => state.cart.products);
-
-  const subtotal = items.reduce((s: number, i: any) => {
-    const effectivePrice = i.price * (1 - (i.discountRate ?? 0) / 100);
-    return s + effectivePrice * i.quantity;
-  }, 0);
-  const originalSubtotal = items.reduce((s: number, i: any) => s + i.price * i.quantity, 0);
-  const totalDiscount = originalSubtotal - subtotal;
-  const tax = subtotal * TAX_RATE;
-  const total = subtotal + tax;
+  const { subtotal, discount: totalDiscount, tax, total } = cartTotals(items);
 
   return (
     <div className="bg-white rounded-xl border border-stone-200 overflow-hidden">
@@ -26,7 +18,7 @@ export default function OrderReview() {
           <li key={item.id} className="flex items-center gap-3 px-6 py-3">
             {item.imageName && item.categoryName ? (
               <img
-                src={`http://localhost:5173/products-img/${item.categoryName}/${item.imageName}`}
+                src={productImageUrl(item.categoryName, item.imageName)}
                 alt={item.name}
                 className="h-12 w-12 object-cover rounded-lg border border-stone-200 shrink-0"
               />

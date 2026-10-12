@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { Dispatch } from "@reduxjs/toolkit";
+import { apiFetch } from "../api/client";
 
 // --- Types ---
 
@@ -25,13 +26,12 @@ type CartState = { cart: { cartId: string | null; products: CartItem[] } };
 
 // --- Constants ---
 
-const BASE_URL = "http://localhost:3001";
 const CART_ID_KEY = "cartId";
 
 // --- API helpers ---
 
 async function apiCreateCart(): Promise<{ id: string; products: CartItem[] }> {
-  const res = await fetch(`${BASE_URL}/carts`, {
+  const res = await apiFetch(`/carts`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ products: [] }),
@@ -40,13 +40,13 @@ async function apiCreateCart(): Promise<{ id: string; products: CartItem[] }> {
 }
 
 async function apiFetchCart(id: string): Promise<{ id: string; products: CartItem[] }> {
-  const res = await fetch(`${BASE_URL}/carts/${id}`);
+  const res = await apiFetch(`/carts/${id}`);
   if (!res.ok) throw new Error("Cart not found");
   return res.json();
 }
 
 async function apiPutCart(id: string, products: CartItem[]): Promise<void> {
-  await fetch(`${BASE_URL}/carts/${id}`, {
+  await apiFetch(`/carts/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id, products }),
@@ -54,7 +54,7 @@ async function apiPutCart(id: string, products: CartItem[]): Promise<void> {
 }
 
 async function apiDeleteCart(id: string): Promise<void> {
-  await fetch(`${BASE_URL}/carts/${id}`, { method: "DELETE" });
+  await apiFetch(`/carts/${id}`, { method: "DELETE" });
 }
 
 // --- State ---

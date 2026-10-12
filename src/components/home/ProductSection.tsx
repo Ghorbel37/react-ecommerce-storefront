@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
+import { apiFetch } from "../../api/client";
 
-const BASE_URL = "http://localhost:3001";
 const RECENTLY_VIEWED_KEY = "recentlyViewed";
 
 export default function ProductSection({ isTopSeller, isNewProduct, isRecent }: any) {
@@ -24,7 +24,7 @@ export default function ProductSection({ isTopSeller, isNewProduct, isRecent }: 
 
       if (ids.length > 0) {
         setUsingFallback(false);
-        Promise.all(ids.slice(0, 10).map((id) => fetch(`${BASE_URL}/products/${id}`).then((r) => r.json())))
+        Promise.all(ids.slice(0, 10).map((id) => apiFetch(`/products/${id}`).then((r) => r.json())))
           .then((data) => setProducts(data.filter(Boolean)))
           .catch(() => setProducts([]));
         return;
@@ -40,7 +40,7 @@ export default function ProductSection({ isTopSeller, isNewProduct, isRecent }: 
         ? "/products?isNewProduct=true"
         : "/products";
 
-    fetch(`${BASE_URL}${apiUrl}`)
+    apiFetch(`${apiUrl}`)
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch(() => setProducts([]));

@@ -1,5 +1,6 @@
 import { TrashIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import type { CartItem } from "../../store/cartSlice";
+import { productImageUrl } from "../../api/client";
 
 type Props = {
   item: CartItem;
@@ -18,7 +19,7 @@ export default function CartProductRow({ item, onQtyChange, onRemove }: Props) {
       <div className="flex items-center gap-3 min-w-0">
         {item.imageName && item.categoryName ? (
           <img
-            src={`http://localhost:5173/products-img/${item.categoryName}/${item.imageName}`}
+            src={productImageUrl(item.categoryName, item.imageName)}
             alt={item.name}
             className="h-16 w-16 object-cover rounded-lg border border-stone-200 shrink-0"
           />

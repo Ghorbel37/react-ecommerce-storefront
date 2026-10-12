@@ -1,19 +1,11 @@
 import { NavLink } from "react-router";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
+import { cartTotals } from "../../store/cartTotals";
 
 export default function MiniCart() {
-  const { itemCount, total } = useSelector((state: any) =>
-    state.cart.products.reduce(
-      (acc: { itemCount: number; total: number }, item: any) => ({
-        itemCount: acc.itemCount + item.quantity,
-        total: acc.total + item.price * (1 - (item.discountRate ?? 0) / 100) * item.quantity,
-      }),
-      { itemCount: 0, total: 0 }
-    )
-  );
-
-  const totalWithTax = total * 1.2;
+  const items = useSelector((state: any) => state.cart.products);
+  const { itemCount, total: totalWithTax } = cartTotals(items);
 
   return (
     <>

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PhotoIcon } from "@heroicons/react/24/outline";
+import { apiFetch, productImageUrl } from "../../api/client";
 
 const RECENTLY_VIEWED_KEY = "recentlyViewed";
-const BASE_URL = "http://localhost:3001";
 const MAX_DISPLAY = 6;
 
 
@@ -24,7 +24,7 @@ export default function RecentlyViewedList({ currentProductId }: { currentProduc
     const ids: number[] = JSON.parse(stored).filter((id: number) => id !== currentProductId);
     if (ids.length === 0) return;
 
-    Promise.all(ids.slice(0, MAX_DISPLAY).map((id) => fetch(`${BASE_URL}/products/${id}`).then((r) => r.json())))
+    Promise.all(ids.slice(0, MAX_DISPLAY).map((id) => apiFetch(`/products/${id}`).then((r) => r.json())))
       .then((data) => setProducts(data.filter(Boolean)))
       .catch(() => {});
   }, [currentProductId]);
@@ -48,7 +48,7 @@ export default function RecentlyViewedList({ currentProductId }: { currentProduc
               <div className="h-28 bg-stone-100 flex items-center justify-center overflow-hidden">
                 {product.imageName ? (
                   <img
-                    src={`http://localhost:5173/products-img/${product.categoryName}/${product.imageName}`}
+                    src={productImageUrl(product.categoryName, product.imageName)}
                     alt={product.name}
                     className="w-full h-full object-contain p-1"
                   />
