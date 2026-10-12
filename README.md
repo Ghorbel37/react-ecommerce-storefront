@@ -1,8 +1,20 @@
 # Phone Web Shop
 
+[![CI](https://github.com/Ghorbel37/react-ecommerce-storefront/actions/workflows/ci.yml/badge.svg)](https://github.com/Ghorbel37/react-ecommerce-storefront/actions/workflows/ci.yml)
+
+**Live demo: [ghorbel37.github.io/react-ecommerce-storefront](https://ghorbel37.github.io/react-ecommerce-storefront/)**
+
 > This project was built as part of a **React training program**, covering core React concepts through a practical, real-world e-commerce application.
 
 A full-featured e-commerce storefront built with React, TypeScript, and Tailwind CSS, backed by a local JSON Server mock API.
+
+![Home page](docs/screenshots/home.png)
+
+| Browse | Product |
+|---|---|
+| ![Browse by category](docs/screenshots/browse.png) | ![Product details](docs/screenshots/product.png) |
+| **Cart** | **Checkout** |
+| ![Shopping cart](docs/screenshots/cart.png) | ![Checkout](docs/screenshots/checkout.png) |
 
 ## Features
 
@@ -22,13 +34,17 @@ A full-featured e-commerce storefront built with React, TypeScript, and Tailwind
 | Styling | Tailwind CSS v4 (`@tailwindcss/vite`) |
 | Icons | Heroicons |
 | Bundler | Vite |
-| Mock API | json-server 0.17 |
+| Mock API | json-server 0.17, or the same data served in the browser |
+| Tests | Vitest + jsdom |
 
 ## Project Structure
 
 ```
 ├─ src/
 │  ├─ App.tsx               # Router definition
+│  ├─ api/
+│  │  ├─ client.ts          # apiFetch(): json-server or in-browser mock
+│  │  └─ mockApi.ts         # json-server stand-in reading api/db.json
 │  ├─ pages/                # Route-level page components
 │  ├─ components/
 │  │  ├─ header/            # Navbar, SearchBar, MiniCart
@@ -40,6 +56,7 @@ A full-featured e-commerce storefront built with React, TypeScript, and Tailwind
 │  │  └─ footer/
 │  └─ store/
 │     ├─ cartSlice.ts       # Cart state + async thunks
+│     ├─ cartTotals.ts      # Subtotal, discount, 20% tax, total
 │     └─ store.ts
 └─ api/
     └─ db.json              # Mock database (products, categories, carts, orders)
@@ -64,7 +81,13 @@ cd api && npm install && cd ..
 
 ### Running the App
 
-You need two terminals: one for the mock API and one for the dev server.
+```bash
+npm run dev
+```
+
+Then open [http://localhost:5173](http://localhost:5173) in your browser. By default the app answers its API calls in the browser from the bundled `api/db.json`, and keeps carts and orders in `localStorage`. This is how the live demo runs on GitHub Pages.
+
+To use the real json-server API instead, run it in a second terminal and start the app in `api` mode (reads `VITE_API_URL` from `.env.api`):
 
 **Terminal 1: Mock API (port 3001)**
 ```bash
@@ -73,16 +96,24 @@ npm run json-server
 
 **Terminal 2: Frontend (port 5173)**
 ```bash
-npm run dev
+npm run dev:api
 ```
 
-Then open [http://localhost:5173](http://localhost:5173) in your browser.
+### Tests
+
+```bash
+npm test
+```
+
+Covers the cart (add, quantity, remove, clear, restore after reload), the totals with discounts and tax, and the in-browser API (filters, search, pagination).
 
 ### Build for Production
 
 ```bash
 npm run build
 ```
+
+GitHub Actions runs the tests and the build on every push, and deploys `main` to GitHub Pages.
 
 ## API Endpoints
 
